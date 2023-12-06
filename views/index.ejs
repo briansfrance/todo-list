@@ -1,0 +1,56 @@
+<%- include('partials/header.ejs') %>
+<h1>Create Your Todo List</h1>
+<div class="listContainer">
+  <form action="/list" method="POST">
+    <input
+      class="todoInput"
+      type="text"
+      name="todoItem"
+      placeholder="Type in your todo"
+    />
+    <input class="submitButton" type="submit" value="Add Todo" />
+  </form>
+  <% if(locals.todoList.length !== 0) { %>
+  <ul class="itemList">
+    <% todoList.forEach((item, index) => { %>
+    <li>
+      <div class="listElement">
+        
+        <span id="todoItemShown-<%= index %>"><%= item %></span>
+        <form action="/update" method="Post" class="updateForm" id="formItemUpdate-<%= index %>">
+          <input class="updateInput" type="text" name="todo" value="<%= item%>" />
+          <button
+            class="updateButton"
+            type="submit"
+            name="item"
+            value="<%= index%>"
+          >
+            Update
+          </button>
+        </form>
+        <div class="buttonsContainer" id="buttonsContainer-<%= index %>">
+          <button
+            class="editButton" onclick="editTodo('<%= index %>')" >
+            Edit
+          </button>
+          <form action="delete" method="Post">
+            <button
+              class="deleteButton"
+              type="submit"
+              name="item"
+              value="<%= index%>"
+            >
+              Delete
+            </button>
+          </form>
+        </div>
+      </div>
+    </li>
+    <%});%>
+  </ul>
+  <h6>You have <span class="listLength"><%= todoList.length%></span> items on your list</h6>
+  <%} else {%>
+  <h3>You do not have any items in your todo list.</h3>
+  <%}%>
+</div>
+<%- include('partials/footer.ejs') %>
